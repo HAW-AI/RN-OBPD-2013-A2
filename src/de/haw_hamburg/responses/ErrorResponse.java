@@ -1,6 +1,6 @@
 package de.haw_hamburg.responses;
 
-public class ErrorResponse extends AbstractRespone {
+public class ErrorResponse extends AbstractResponse {
 	
 	private String message;
 	

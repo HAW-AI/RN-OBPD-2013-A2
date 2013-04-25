@@ -1,6 +1,6 @@
 package de.haw_hamburg.responses;
 
-public class OkResponse extends AbstractRespone {
+public class OkResponse extends AbstractResponse {
 	
 	private OkResponse(){
 		

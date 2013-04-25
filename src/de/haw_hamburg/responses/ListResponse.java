@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.haw_hamburg.common.User;
 
-public class ListResponse extends AbstractRespone {
+public class ListResponse extends AbstractResponse {
 	
 	private List<User> list;
 	

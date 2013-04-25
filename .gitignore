@@ -1,9 +1,10 @@
 *.class
 bin/
+bin-test/
+dist/
 .classpath
 .project
 
 # Package Files #
-*.jar
 *.war
 *.ear

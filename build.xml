@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<project name="Ant-Test" default="main" basedir=".">
+  <property name="src.dir" location="${basedir}/src" />
+  <property name="src-test.dir" location="${basedir}/test" />
+  <property name="build.dir" location="${basedir}/bin" />
+  <property name="build.main.dir" location ="${build.dir}" />
+  <property name="build.test.dir" location ="${basedir}/bin-test" />
+  <property name="dist.dir" location="${basedir}/dist" />
+
+  <path id="build.class.path">
+    <fileset dir="${basedir}/lib">
+      <include name="*.jar" />
+    </fileset>
+  </path> 
+
+  <target name="compile" depends="clean,makedir">
+    <javac srcdir="${src.dir}" destdir="${build.main.dir}">
+    </javac>
+  </target>
+
+  <target name="compile-test" depends="compile">
+    <javac srcdir="${src-test.dir}" destdir="${build.test.dir}">
+      <classpath>
+        <path refid="build.class.path" />
+        <pathelement location="${build.main.dir}" />
+      </classpath>
+    </javac>
+  </target>
+
+    <target name="dist" depends="compile">
+    <jar destfile="${dist.dir}/chat-client.jar" basedir="${build.main.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="de.haw_hamburg.client.Starter" />
+      </manifest>
+    </jar>
+
+    <jar destfile="${dist.dir}/chat-server.jar" basedir="${build.main.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="de.haw_hamburg.server.Starter" />
+      </manifest>
+    </jar>
+    <copy todir="${dist.dir}">
+      <fileset dir="${basedir}">
+	<include name="logging_client.properties"/>
+	<include name="logging_server.properties"/>
+	<include name="client.sh"/>
+	<include name="server.sh"/>
+      </fileset>
+    </copy>
+  </target>
+  <target name="test" depends="compile,compile-test">
+    <junit printsummary="yes" haltonfailure="yes" showoutput="yes" >
+       <formatter type="plain" usefile="false" />
+       <classpath>
+         <path refid="build.class.path"/>
+         <pathelement path="${build.main.dir}"/>
+         <pathelement path="${build.test.dir}"/>
+       </classpath>
+       <batchtest>
+         <fileset dir="${src-test.dir}">
+           <include name="**/*.java"/>
+         </fileset>
+       </batchtest>
+    </junit>
+  </target>
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete dir="${build.test.dir}" />
+    <delete dir="${dist.dir}" />
+  </target>
+
+  <target name="makedir">
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${build.test.dir}" />
+  </target>
+
+  <target name="main" depends="compile,test,dist">
+  </target>
+
+</project>

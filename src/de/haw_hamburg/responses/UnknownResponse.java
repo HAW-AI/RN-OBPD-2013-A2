@@ -1,6 +1,6 @@
 package de.haw_hamburg.responses;
 
-public class UnknownResponse extends AbstractRespone {
+public class UnknownResponse extends AbstractResponse {
 	
 	private UnknownResponse(){
 		

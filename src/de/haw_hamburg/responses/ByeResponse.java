@@ -1,6 +1,6 @@
 package de.haw_hamburg.responses;
 
-public class ByeResponse extends AbstractRespone {
+public class ByeResponse extends AbstractResponse {
 
 	private ByeResponse(){
 		
