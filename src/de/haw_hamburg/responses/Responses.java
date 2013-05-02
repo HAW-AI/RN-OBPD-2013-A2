@@ -36,7 +36,7 @@ public class Responses {
 		return ByeResponse.create();
 	}
 
-	private static Response unknown() {
+	public static Response unknown() {
 		return UnknownResponse.create();
 	}
 
@@ -102,18 +102,17 @@ public class Responses {
 
 	}
 
-	private static String getParams(String keyword, String rawResponse){
-		if(rawResponse.length()< keyword.length()+2){
+	private static String getParams(String keyword, String rawResponse) {
+		if (rawResponse.length() < keyword.length() + 2) {
 			return null;
-		}
-		else if(!rawResponse.substring(keyword.length(),keyword.length()+1).equals(" ")){
+		} else if (!rawResponse.substring(keyword.length(),
+				keyword.length() + 1).equals(" ")) {
 			return null;
-		}
-		else if(rawResponse.substring(keyword.length()+1).trim().equals("")){
+		} else if (rawResponse.substring(keyword.length() + 1).trim()
+				.equals("")) {
 			return null;
-		}
-		else {
-			return rawResponse.substring(keyword.length()+1).trim();
+		} else {
+			return rawResponse.substring(keyword.length() + 1).trim();
 		}
 	}
 
