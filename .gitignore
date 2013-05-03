@@ -8,3 +8,4 @@ dist/
 # Package Files #
 *.war
 *.ear
+/nbproject/private/
