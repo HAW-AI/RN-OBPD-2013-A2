@@ -1,13 +1,5 @@
 package de.haw_hamburg.client;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import de.haw_hamburg.common.User;
-import de.haw_hamburg.responses.ListResponse;
-import de.haw_hamburg.responses.Response;
-
 public class Client {
 	private static Client client;
 	private ServerCommunicator serverCommunicator;
@@ -30,7 +22,7 @@ public class Client {
 	}
 
 	private static Client createClient() {
-		// GUI should be a thread
+		// GUI thread
 		GUI gui = GUI.getGUI();
 		gui.start();
 

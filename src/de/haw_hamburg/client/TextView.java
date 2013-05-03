@@ -12,12 +12,12 @@ public class TextView implements View {
 
 	@Override
 	public void addMessage(Message message) {
-		GUI.getGUI().addEntryToChatLogScrollPane(message.toString());
+		GUIView.getGUIView().addEntryToChatLogScrollPane(message.toString());
 	}
 
 	@Override
 	public void setUsers(List<User> users) {
-		GUI.getGUI().setClientsList(users);
+		GUIView.getGUIView().setClientsList(users);
 	}
 
 }
