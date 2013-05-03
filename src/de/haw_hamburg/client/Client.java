@@ -10,13 +10,13 @@ import de.haw_hamburg.responses.Response;
 
 public class Client {
 	private static Client client;
-	private List<User> users;
 	private ServerCommunicator serverCommunicator;
 	private GUI gui;
+	private View textview;
 
-	private Client(GUI gui, ServerCommunicator serverCommunicator) {
+	private Client(GUI gui, View textview) {
 		this.gui = gui;
-		this.serverCommunicator = serverCommunicator;
+		this.textview = textview;
 	}
 
 	// client singleton
@@ -30,20 +30,18 @@ public class Client {
 	}
 
 	private static Client createClient() {
+		// GUI should be a thread
 		GUI gui = GUI.getGUI();
 		gui.start();
 
+		// bridges the GUI and the UserListUpdateTask
 		View textview = new TextView();
 
 		// Start Server Thread which keeps a TCP connection to the Server open
-		ServerCommunicator serverCommunicator = ServerCommunicator
-				.getServerCommunicator(GUI.getGUI().getUsername());
-		serverCommunicator.start();
+		// ServerCommunicator serverCommunicator = ServerCommunicator
+		// .getServerCommunicator(GUI.getGUI().getUsername());
+		// serverCommunicator.start();
 
-		return new Client(gui, serverCommunicator);
-	}
-
-	public List<User> getUsers() {
-		return serverCommunicator.getUsers();
+		return new Client(gui, textview);
 	}
 }
