@@ -27,25 +27,19 @@ public class ServerCommunicator extends Thread {
 	private PrintWriter out;
 	private BufferedReader in;
 
-	private String name;
-	private List<User> users;
+	private String userName;
 
 	private ServerCommunicator(String name) {
-		this.name = name;
-		this.users = null;
+		this.userName = name;
 	}
 
-	public void refreshUserList() {
+	public Response refreshUserList() {
 		Response response = sendRequestAndWaitForResponse(Requests.info());
-		List<User> updatedUsers;
-		if (response.isList()) {
-			updatedUsers = Collections
-					.synchronizedList(((ListResponse) response).getList());
-			setUsers(updatedUsers);
-		} else {
+		if (!response.isList()) {
 			// in the event of an error disconnect and shutdown
 			disconnect();
 		}
+		return response;
 	}
 
 	public void run() {
@@ -56,7 +50,7 @@ public class ServerCommunicator extends Thread {
 					socket.getInputStream()));
 
 			Response nameResponse = sendRequestAndWaitForResponse(Requests
-					.newUser(this.name));
+					.newUser(this.userName));
 
 			if (nameResponse.isError()) {
 				disconnect();
@@ -98,16 +92,4 @@ public class ServerCommunicator extends Thread {
 		}
 		return response;
 	}
-
-	public List<User> getUsers() {
-		// dont retun the actual list but a copy of it
-		return new ArrayList<User>(users);
-	}
-
-	private void setUsers(List<User> updatedUsers) {
-		synchronized (users) {
-			this.users = updatedUsers;
-		}
-	}
-
 }

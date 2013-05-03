@@ -1,10 +1,8 @@
 package de.haw_hamburg.client;
 
-import java.util.List;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
-import de.haw_hamburg.common.User;
 import de.haw_hamburg.responses.ListResponse;
 import de.haw_hamburg.responses.Response;
 
@@ -27,7 +25,7 @@ public class UserListUpdateTask extends TimerTask {
 
 	@Override
 	public void run() {
-		Response response = communicator.getUserList();
+		Response response = communicator.refreshUserList();
 		if (response.isList()) {
 			ListResponse listResponse = (ListResponse) response;
 			view.setUsers(listResponse.getList());
