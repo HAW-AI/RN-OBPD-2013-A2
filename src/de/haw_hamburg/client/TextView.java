@@ -7,15 +7,17 @@ import de.haw_hamburg.common.User;
 
 public class TextView implements View {
 
+	TextView() {
+	}
+
 	@Override
 	public void addMessage(Message message) {
-		System.out.println("Received message: "+message);
-		
+		GUI.getGUI().addEntryToChatLogScrollPane(message.toString());
 	}
 
 	@Override
 	public void setUsers(List<User> users) {
-		System.out.println("New List of Users: "+users);
+		GUI.getGUI().setClientsList(users);
 	}
 
 }

@@ -39,7 +39,8 @@ public class ServerCommunicator extends Thread {
 		Response response = sendRequestAndWaitForResponse(Requests.info());
 		List<User> updatedUsers;
 		if (response.isList()) {
-			updatedUsers = Collections.synchronizedList(((ListResponse) response).getList());
+			updatedUsers = Collections
+					.synchronizedList(((ListResponse) response).getList());
 			setUsers(updatedUsers);
 		} else {
 			// in the event of an error disconnect and shutdown

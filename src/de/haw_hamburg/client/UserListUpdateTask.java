@@ -12,29 +12,30 @@ public class UserListUpdateTask extends TimerTask {
 
 	private ServerCommunicator communicator;
 	private View view;
-	
-	private static Logger LOG=Logger.getLogger(UserListUpdateTask.class.getName());
-	
-	private UserListUpdateTask(ServerCommunicator communicator,View view){
-		this.communicator=communicator;
-		this.view=view;
+
+	private static Logger LOG = Logger.getLogger(UserListUpdateTask.class
+			.getName());
+
+	private UserListUpdateTask(ServerCommunicator communicator, View view) {
+		this.communicator = communicator;
+		this.view = view;
 	}
-	
-	static UserListUpdateTask create(ServerCommunicator communicator,View view){
-		return new UserListUpdateTask(communicator,view);
+
+	static UserListUpdateTask create(ServerCommunicator communicator, View view) {
+		return new UserListUpdateTask(communicator, view);
 	}
-	
+
 	@Override
 	public void run() {
-		Response response=communicator.getUserList();
-		if(response.isList()){
-			ListResponse listResponse=(ListResponse)response;
+		Response response = communicator.getUserList();
+		if (response.isList()) {
+			ListResponse listResponse = (ListResponse) response;
 			view.setUsers(listResponse.getList());
+		} else {
+			LOG.warning("Could not get user list. Expected LIST response, got: "
+					+ response);
 		}
-		else {
-			LOG.warning("Could not get user list. Expected LIST response, got: "+response);
-		}
-			
+
 	}
 
 }

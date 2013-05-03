@@ -8,7 +8,7 @@ public class LoggingFormatter extends Formatter {
 
 	@Override
 	public String format(LogRecord rec) {
-		StringBuilder result=new StringBuilder("");
+		StringBuilder result = new StringBuilder("");
 		result.append(rec.getLoggerName());
 		result.append(" [");
 		result.append(new Date(rec.getMillis()));

@@ -48,7 +48,8 @@ public class ClientCommunicator extends Thread {
 
 	public static void sendMessage(List<User> receivers, OutgoingMessage message) {
 		if (receivers != null && !receivers.isEmpty() && message != null) {
-			ClientCommunicator communicator = new ClientCommunicator(receivers, message);
+			ClientCommunicator communicator = new ClientCommunicator(receivers,
+					message);
 			communicator.run();
 		}
 	}

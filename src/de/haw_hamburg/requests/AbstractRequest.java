@@ -1,8 +1,7 @@
 package de.haw_hamburg.requests;
 
 abstract class AbstractRequest implements Request {
- 
-	
+
 	@Override
 	public boolean isBye() {
 		return false;
@@ -17,7 +16,7 @@ abstract class AbstractRequest implements Request {
 	public boolean isInfo() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isUnknown() {
 		return false;

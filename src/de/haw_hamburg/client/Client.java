@@ -33,9 +33,11 @@ public class Client {
 		GUI gui = GUI.getGUI();
 		gui.start();
 
+		View textview = new TextView();
+
 		// Start Server Thread which keeps a TCP connection to the Server open
-		ServerCommunicator serverCommunicator = ServerCommunicator.getServerCommunicator(GUI
-				.getUsername());
+		ServerCommunicator serverCommunicator = ServerCommunicator
+				.getServerCommunicator(GUI.getGUI().getUsername());
 		serverCommunicator.start();
 
 		return new Client(gui, serverCommunicator);

@@ -16,8 +16,11 @@ public class MessagesTest {
 		assertNull(Message.fromRawMessage(""));
 		assertNull(Message.fromRawMessage(null));
 		assertNull(Message.fromRawMessage("Hallo - Hallo"));
-		assertEquals("Hallo",Message.fromRawMessage("Hallo: content").getUserName());
-		assertEquals("content: with colon", Message.fromRawMessage("Hallo: content: with colon").getContent());
+		assertEquals("Hallo", Message.fromRawMessage("Hallo: content")
+				.getUserName());
+		assertEquals("content: with colon",
+				Message.fromRawMessage("Hallo: content: with colon")
+						.getContent());
 	}
 
 }

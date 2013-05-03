@@ -1,12 +1,11 @@
 package de.haw_hamburg.requests;
 
 public class ByeRequest extends AbstractRequest {
-	
-	
+
 	private ByeRequest() {
 	}
 
-	static ByeRequest create(){
+	static ByeRequest create() {
 		return new ByeRequest();
 	}
 
@@ -14,11 +13,10 @@ public class ByeRequest extends AbstractRequest {
 	public boolean isBye() {
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Requests.BYE;
 	}
-	
 
 }

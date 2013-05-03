@@ -2,7 +2,6 @@ package de.haw_hamburg.responses;
 
 abstract class AbstractResponse implements Response {
 
-	
 	@Override
 	public boolean isList() {
 		return false;

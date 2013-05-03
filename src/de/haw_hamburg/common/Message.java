@@ -36,7 +36,7 @@ public class Message {
 	public Date getReceptionDate() {
 		return receptionDate;
 	}
-	
+
 	/**
 	 * A message object gets created. If the message is illegal, null is
 	 * returned.
