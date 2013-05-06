@@ -1,6 +1,9 @@
 package de.haw_hamburg.responses;
 
+import java.net.InetAddress;;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import de.haw_hamburg.common.User;
 
@@ -13,6 +16,14 @@ public class ListResponse extends AbstractResponse {
 	}
 
 	static ListResponse create(List<User> list) {
+		return new ListResponse(list);
+	}
+	
+	static ListResponse create(Map<String,InetAddress> map) {
+		List<User> list=new ArrayList<User>();
+		for(Map.Entry<String, InetAddress> entry:map.entrySet()){
+			list.add(User.create(entry.getKey(), entry.getValue().toString()));
+		}
 		return new ListResponse(list);
 	}
 

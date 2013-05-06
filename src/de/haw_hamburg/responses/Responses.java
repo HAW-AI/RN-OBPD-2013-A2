@@ -1,7 +1,9 @@
 package de.haw_hamburg.responses;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import de.haw_hamburg.common.User;
@@ -30,6 +32,10 @@ public class Responses {
 
 	public static Response list(List<User> list) {
 		return ListResponse.create(list);
+	}
+	
+	public static Response list(Map<String,InetAddress> map) {
+		return ListResponse.create(map);
 	}
 
 	public static Response bye() {
