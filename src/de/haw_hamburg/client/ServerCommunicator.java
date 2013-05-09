@@ -1,95 +1,104 @@
 package de.haw_hamburg.client;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import de.haw_hamburg.common.User;
 import de.haw_hamburg.requests.Request;
 import de.haw_hamburg.requests.Requests;
 import de.haw_hamburg.responses.ListResponse;
 import de.haw_hamburg.responses.Response;
 import de.haw_hamburg.responses.Responses;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.List;
 
 public class ServerCommunicator extends Thread {
 
-	private final String SERVER_HOST = "localhost";
-	private final Integer SERVER_PORT = 50000;
-	private final Integer CLIENT_LIST_REFRESH_PERIOD = 2000;
+    private final String SERVER_HOST = "localhost";
+    private final Integer SERVER_PORT = 50000;
+    private final Integer CLIENT_LIST_REFRESH_PERIOD = 2000;
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
+    private String userName;
+    private final Client client;
 
-	private Socket socket;
-	private PrintWriter out;
-	private BufferedReader in;
+    private ServerCommunicator(String userName, Client client) {
+        this.userName = userName;
+        this.client = client;
+    }
 
-	private String userName;
+    public void refreshUserList() {
+        Response response = sendRequestAndWaitForResponse(Requests.info());
+        if (response.isList()) {
+            List<User> newUserList = ((ListResponse) response).getList();
+            getClient().setUserList(newUserList);
+            getGUI().setUserList(newUserList);
+            
+        } else {
+            // in the event of an error disconnect and shutdown
+            disconnect();
+        }
+        
+    }
 
-	private ServerCommunicator(String name) {
-		this.userName = name;
-	}
+    public void run() {
+        try {
+            socket = new Socket(SERVER_HOST, SERVER_PORT);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(
+                    socket.getInputStream()));
 
-	public Response refreshUserList() {
-		Response response = sendRequestAndWaitForResponse(Requests.info());
-		if (!response.isList()) {
-			// in the event of an error disconnect and shutdown
-			disconnect();
-		}
-		return response;
-	}
+            Response nameResponse = sendRequestAndWaitForResponse(Requests
+                    .newUser(this.userName));
 
-	public void run() {
-		try {
-			socket = new Socket(SERVER_HOST, SERVER_PORT);
-			out = new PrintWriter(socket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(
-					socket.getInputStream()));
+            if (nameResponse.isError()) {
+                disconnect();
+            } else {
+                while (!isInterrupted()) {
+                    refreshUserList();
+                    sleep(CLIENT_LIST_REFRESH_PERIOD);
+                }
+            }
+        } catch (UnknownHostException e) {
+        } catch (IOException e) {
+        } catch (InterruptedException e) {
+        }
+    }
 
-			Response nameResponse = sendRequestAndWaitForResponse(Requests
-					.newUser(this.userName));
+    public static ServerCommunicator createServerCommunicator(String userName, Client client) {
+        if (userName != null && client != null) {
+            return new ServerCommunicator(userName, client);
+        } else {
+            return null;
+        }
+    }
 
-			if (nameResponse.isError()) {
-				disconnect();
-			} else {
-				while (!isInterrupted()) {
-					refreshUserList();
-					sleep(CLIENT_LIST_REFRESH_PERIOD);
-				}
-			}
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+    private void disconnect() {
+        try {
+            interrupt();
+            socket.close();
+        } catch (IOException e) {
+        }
+    }
 
-	public static ServerCommunicator getServerCommunicator(String userName) {
-		return new ServerCommunicator(userName);
-	}
+    private Response sendRequestAndWaitForResponse(Request request) {
+        Response response = Responses.unknown();
+        try {
+            out.println(request.toString());
+            response = Responses.fromRawResponse(in.readLine());
+        } catch (IOException e) {
+        }
+        return response;
+    }
 
-	private void disconnect() {
-		try {
-			interrupt();
-			socket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private Response sendRequestAndWaitForResponse(Request request) {
-		Response response = Responses.unknown();
-		try {
-			out.println(request.toString());
-			response = Responses.fromRawResponse(in.readLine());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return response;
-	}
+    private Client getClient() {
+        return this.client;
+    }
+    
+    private GUI getGUI() {
+        return getClient().getGUI();
+    }
 }

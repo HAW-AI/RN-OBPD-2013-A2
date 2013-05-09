@@ -1,9 +1,14 @@
 package de.haw_hamburg.client;
 
+import de.haw_hamburg.common.User;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Client {
 	private static Client client;
 	private ServerCommunicator serverCommunicator;
 	private GUI gui;
+        private List<User> userList;
 
 	private Client() {
 	}
@@ -38,10 +43,25 @@ public class Client {
 
 		return client;
 	}
+        
+        public GUI getGUI() {
+            return this.gui;
+        }
 
 	private void setGUI(GUI gui) {
 		if (gui != null) {
 			this.gui = gui;
 		}
 	}
+        
+        public void setUserList(List<User> userList) {
+            synchronized(userList) {
+                this.userList = userList;
+            }
+        }
+        
+        public List<User> getUserList() {
+            // defensive copy
+            return new ArrayList<User>(this.userList); 
+        }
 }

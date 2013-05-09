@@ -4,6 +4,9 @@
  */
 package de.haw_hamburg.client;
 
+import de.haw_hamburg.common.User;
+import java.util.List;
+
 /**
  * 
  * @author patrick
@@ -40,4 +43,12 @@ public class GUI extends Thread {
         public Client getClient() {
             return this.client;
         }
+        
+        private GUIView getGUIView() {
+            return this.guiView;
+        }
+
+    public void setUserList(List<User> newUserList) {
+        getGUIView().setUserList(newUserList);
+    }
 }

@@ -56,7 +56,7 @@ public class GUIView extends javax.swing.JFrame {
         chatLogScrollPane = new javax.swing.JScrollPane();
         chatLogTextArea = new javax.swing.JTextArea();
         clientsListScrollPane = new javax.swing.JScrollPane();
-        clientsList = new javax.swing.JList();
+        userList = new javax.swing.JList();
 
         org.jdesktop.layout.GroupLayout jDialog1Layout = new org.jdesktop.layout.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -106,17 +106,17 @@ public class GUIView extends javax.swing.JFrame {
         clientsListScrollPane.setEnabled(false);
         clientsListScrollPane.setHorizontalScrollBar(null);
 
-        clientsList.setModel(new javax.swing.AbstractListModel() {
+        userList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        clientsList.setFocusTraversalKeysEnabled(false);
-        clientsList.setFocusable(false);
-        clientsList.setOpaque(false);
-        clientsList.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        clientsList.setSelectionForeground(new java.awt.Color(0, 0, 0));
-        clientsListScrollPane.setViewportView(clientsList);
+        userList.setFocusTraversalKeysEnabled(false);
+        userList.setFocusable(false);
+        userList.setOpaque(false);
+        userList.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        userList.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        clientsListScrollPane.setViewportView(userList);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,7 +160,7 @@ public class GUIView extends javax.swing.JFrame {
         // 3. Add the text to the Chatlog
         addEntryToChatLogScrollPane(chatEntry);
         // 4. Send to all connected clients via a ClientCommunicator
-        ClientCommunicator.sendMessage(clientsList.getModel(), OutgoingMessage.createOutgoingMessage(getUsername(), chatEntry));
+        ClientCommunicator.sendMessage(getClient().getUserList(), OutgoingMessage.createOutgoingMessage(getUsername(), chatEntry));
     }//GEN-LAST:event_submitChatText
 
     /**
@@ -211,18 +211,14 @@ public class GUIView extends javax.swing.JFrame {
     private javax.swing.JScrollPane chatEntryBoxScrollPane;
     private javax.swing.JScrollPane chatLogScrollPane;
     private javax.swing.JTextArea chatLogTextArea;
-    private javax.swing.JList clientsList;
     private javax.swing.JScrollPane clientsListScrollPane;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JButton submitButton;
+    private javax.swing.JList userList;
     // End of variables declaration//GEN-END:variables
     private String userName;
     private static GUIView guiView;
-
-    public void setClientsList(List<User> newClientsList) {
-        this.clientsList.setListData(newClientsList.toArray());
-    }
 
     public void addEntryToChatLogScrollPane(String message) {
         this.chatLogTextArea.append(message);
@@ -236,5 +232,15 @@ public class GUIView extends javax.swing.JFrame {
 
     private GUI getGUI() {
         return this.gui;
+    }
+
+    private Client getClient() {
+        return getGUI().getClient();
+    }
+
+    void setUserList(List<User> newUserList) {
+        synchronized(userList) {
+            this.userList.setListData(newUserList.toArray());
+        }
     }
 }
