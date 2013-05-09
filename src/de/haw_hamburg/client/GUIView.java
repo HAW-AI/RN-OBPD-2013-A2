@@ -160,7 +160,7 @@ public class GUIView extends javax.swing.JFrame {
         // 3. Add the text to the Chatlog
         addEntryToChatLogScrollPane(chatEntry);
         // 4. Send to all connected clients via a ClientCommunicator
-        ClientCommunicator.sendMessage(getClient().getUserList(), OutgoingMessage.createOutgoingMessage(getUsername(), chatEntry));
+        ClientCommunicator.sendMessage(getClient().getUserListWithoutUs(), OutgoingMessage.createOutgoingMessage(getUsername(), chatEntry));
     }//GEN-LAST:event_submitChatText
 
     /**
