@@ -15,7 +15,7 @@ public class GUI extends Thread {
 	private Client client;
 
 	private GUI() {
-		this.guiView = new GUIView();
+		this.guiView = new GUIView(this);
 	}
 
 	public static GUI getGUI() {
@@ -36,4 +36,8 @@ public class GUI extends Thread {
 			this.client = client;
 		}
 	}
+        
+        public Client getClient() {
+            return this.client;
+        }
 }

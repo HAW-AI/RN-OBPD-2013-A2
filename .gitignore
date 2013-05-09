@@ -9,3 +9,5 @@ dist/
 *.war
 *.ear
 /nbproject/private/
+/nbdist/
+/build/
