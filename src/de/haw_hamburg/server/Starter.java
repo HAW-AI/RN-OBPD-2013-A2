@@ -9,7 +9,7 @@ public class Starter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Server.create(SERVER_PORT, MAX_CLIENT_NUMBER).start();
+		ServerImpl.create(SERVER_PORT, MAX_CLIENT_NUMBER).start();
 	}
 
 }

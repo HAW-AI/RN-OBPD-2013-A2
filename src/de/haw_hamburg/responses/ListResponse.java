@@ -22,7 +22,7 @@ public class ListResponse extends AbstractResponse {
 	static ListResponse create(Map<String,InetAddress> map) {
 		List<User> list=new ArrayList<User>();
 		for(Map.Entry<String, InetAddress> entry:map.entrySet()){
-			list.add(User.create(entry.getKey(), entry.getValue().toString()));
+			list.add(User.create(entry.getKey(), entry.getValue().getHostName()));
 		}
 		return new ListResponse(list);
 	}

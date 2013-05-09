@@ -19,7 +19,6 @@ public class ClientCommunicator extends ChatComponent {
 	private final Socket socket;
 	private final InetAddress address;
 	private ChatState state = ChatState.CONNECTED;
-	private final int id;
 	private final Server server;
 	private final Logger LOG;
 	private String clientName;
@@ -27,7 +26,6 @@ public class ClientCommunicator extends ChatComponent {
 	private ClientCommunicator(Socket socket, int id, BufferedReader in,
 			PrintWriter out, Server server, InetAddress address) {
 		this.socket = socket;
-		this.id = id;
 		this.in = in;
 		this.out = out;
 		this.server = server;
@@ -46,9 +44,12 @@ public class ClientCommunicator extends ChatComponent {
 
 	@Override
 	public void run() {
+		LOG.info("ClientCommunicator started");
 		try {
-			while (!isInterrupted() && state != ChatState.DISCONNECTED) {
-				handleRequest(readLine());
+			String rawRequest=readLine();
+			while (!isInterrupted() && state != ChatState.DISCONNECTED && rawRequest!=null) {
+				handleRequest(rawRequest);
+				rawRequest=readLine();
 			}
 		} catch (IOException e) {
 			LOG.warning("Could not get request: " + e.getMessage());
@@ -61,6 +62,7 @@ public class ClientCommunicator extends ChatComponent {
 		} catch (IOException e) {
 			LOG.warning("Could not close socket: " + e.getMessage());
 		}
+		LOG.info("ClientCommunicator finished");
 	}
 
 	private void handleRequest(String rawRequest) throws IOException {
@@ -107,6 +109,10 @@ public class ClientCommunicator extends ChatComponent {
 	@Override
 	protected Logger getLog() {
 		return LOG;
+	}
+	
+	ChatState getChatState(){
+		return state;
 	}
 
 }

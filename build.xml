@@ -15,6 +15,7 @@
 
   <target name="compile" depends="clean,makedir">
     <javac srcdir="${src.dir}" destdir="${build.main.dir}">
+	<classpath refid="build.class.path"/>
     </javac>
   </target>
 
