@@ -5,8 +5,7 @@ public class Client {
 	private ServerCommunicator serverCommunicator;
 	private GUI gui;
 
-	private Client(GUI gui) {
-		this.gui = gui;
+	private Client() {
 	}
 
 	// client singleton
@@ -19,16 +18,30 @@ public class Client {
 		}
 	}
 
+	public ServerCommunicator getServerCommunicator() {
+		return this.serverCommunicator;
+	}
+
+	public void setServerCommunicator(ServerCommunicator serverCommunicator) {
+		if (serverCommunicator != null) {
+			this.serverCommunicator = serverCommunicator;
+		}
+	}
+
 	private static Client createClient() {
+		Client client = new Client();
+
 		// GUI thread
-		GUI gui = GUI.getGUI();
+		GUI gui = GUI.createGUI(client);
+		client.setGUI(gui);
 		gui.start();
 
-		// Start Server Thread which keeps a TCP connection to the Server open
-		// ServerCommunicator serverCommunicator = ServerCommunicator
-		// .getServerCommunicator(GUI.getGUI().getUsername());
-		// serverCommunicator.start();
+		return client;
+	}
 
-		return new Client(gui);
+	private void setGUI(GUI gui) {
+		if (gui != null) {
+			this.gui = gui;
+		}
 	}
 }

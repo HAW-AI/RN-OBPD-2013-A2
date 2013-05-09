@@ -1,6 +1,6 @@
 package de.haw_hamburg.responses;
 
-import java.net.InetAddress;;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
