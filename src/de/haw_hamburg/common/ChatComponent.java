@@ -22,12 +22,12 @@ public abstract class ChatComponent extends Thread {
 	}
 	
 	protected void println(Request request) throws IOException {
-		getLog().info("Sending reply: "+request);
+		getLog().info("Sending request: "+request);
 		out.println(request.toString());
 	}
 
 	protected void println(Response reply) throws IOException {
-		getLog().info("Sending response: "+reply);
+		getLog().info("Sending repsonse: "+reply);
 		out.println(reply.toString());
 	}
 

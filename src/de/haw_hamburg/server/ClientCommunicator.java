@@ -1,5 +1,10 @@
 package de.haw_hamburg.server;
 
+import de.haw_hamburg.common.ChatComponent;
+import de.haw_hamburg.requests.NewRequest;
+import de.haw_hamburg.requests.Request;
+import de.haw_hamburg.requests.Requests;
+import de.haw_hamburg.responses.Responses;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,12 +12,6 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.logging.Logger;
-
-import de.haw_hamburg.common.ChatComponent;
-import de.haw_hamburg.requests.NewRequest;
-import de.haw_hamburg.requests.Request;
-import de.haw_hamburg.requests.Requests;
-import de.haw_hamburg.responses.Responses;
 
 public class ClientCommunicator extends ChatComponent {
 

@@ -1,31 +1,42 @@
 package de.haw_hamburg.client;
 
 import de.haw_hamburg.common.User;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
-public class Client {
+public class Client extends Thread {
 
     private static Client client;
     private ServerCommunicator serverCommunicator;
-    private StartDialog startDialog;
     private GUI gui;
     private List<User> userList;
     private User currentUser;
     private String serverHostName;
+    private final Logger LOG;
 
     private Client() {
+        this.LOG = Logger.getLogger(Client.class.toString());
     }
 
     // client singleton
     public static Client getClient() {
         if (Client.client == null) {
-            Client.client = createClient();
+            Client.client = new Client();
             return client;
         } else {
             return client;
         }
     }
+
+    public static Client createClient() {
+        return getClient();
+    }
+    
+//    public void run() {
+//        
+//    }
 
     public ServerCommunicator getServerCommunicator() {
         return this.serverCommunicator;
@@ -35,17 +46,6 @@ public class Client {
         if (serverCommunicator != null) {
             this.serverCommunicator = serverCommunicator;
         }
-    }
-
-    private static Client createClient() {
-        Client client = new Client();
-
-        // GUI thread
-        GUI gui = GUI.createGUI(client);
-        client.setGUI(gui);
-        gui.start();
-
-        return client;
     }
 
     public GUI getGUI() {
@@ -90,11 +90,30 @@ public class Client {
         setCurrentUser(User.create(userName, "localhost"));
     }
 
-    void setServerHostName(String serverHostName) {
+    public void setServerHostname(String serverHostName) {
         this.serverHostName = serverHostName;
     }
 
-    void startDialogFinished() {
-        this.startDialog = null;
+    public void startDialogFinished() {
+        launchServerCommunicator();
+        launchGUI();
+    }
+
+    private void launchServerCommunicator() {
+        try {
+            setServerCommunicator(serverCommunicator.create(getServerHostname(), getCurrentUser().getName(), this));
+        } catch (IOException ex) {
+            LOG.severe("could not launch server communicator");
+        }
+    }
+
+    public String getServerHostname() {
+        return this.serverHostName;
+    }
+
+    private void launchGUI() {
+        GUI gui = GUI.createGUI(client);
+        client.setGUI(gui);
+        gui.start();
     }
 }

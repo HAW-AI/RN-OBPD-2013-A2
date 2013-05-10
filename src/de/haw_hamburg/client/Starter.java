@@ -6,7 +6,7 @@ public class Starter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Client client = Client.getClient();
+		Client.createClient().start();
 	}
 
 }

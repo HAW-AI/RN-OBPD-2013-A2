@@ -1,5 +1,6 @@
 package de.haw_hamburg.client;
 
+import de.haw_hamburg.common.ChatComponent;
 import de.haw_hamburg.common.User;
 import de.haw_hamburg.requests.Request;
 import de.haw_hamburg.requests.Requests;
@@ -10,27 +11,45 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.List;
+import java.util.logging.Logger;
 
-public class ServerCommunicator extends Thread {
+public class ServerCommunicator extends ChatComponent {
 
-    private final String SERVER_HOST = "localhost";
-    private final Integer SERVER_PORT = 50000;
-    private final Integer CLIENT_LIST_REFRESH_PERIOD = 2000;
+    private static final Integer SERVER_PORT = 50000;
+    private static final Integer CLIENT_LIST_REFRESH_PERIOD = 2000;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
     private String userName;
     private final Client client;
+    private final Logger LOG;
 
-    private ServerCommunicator(String userName, Client client) {
+    private ServerCommunicator(Socket socket, BufferedReader in,
+			PrintWriter out, String userName, Client client) {
+        this.socket = socket;
+        this.in = in;
+        this.out = out;
         this.userName = userName;
         this.client = client;
+        this.LOG = Logger.getLogger(ClientCommunicator.class.toString());
+    }
+    
+    public static ServerCommunicator create(String serverHostname, String userName, Client client)
+            throws IOException {
+        InetAddress serverAddress = InetAddress.getByName(serverHostname);
+
+        Socket socket = new Socket(serverAddress, SERVER_PORT);
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(
+                socket.getInputStream()));
+        return new ServerCommunicator(socket, in, out, userName, client);
     }
 
     public void refreshUserList() {
+        LOG.info("refreshing userlist");
         Response response = sendRequestAndWaitForResponse(Requests.info());
         if (response.isList()) {
             List<User> newUserList = ((ListResponse) response).getList();
@@ -39,6 +58,8 @@ public class ServerCommunicator extends Thread {
             
         } else {
             // in the event of an error disconnect and shutdown
+            LOG.severe("There was an error trying to refresh the user list");
+            LOG.severe(response.toString());
             disconnect();
         }
         
@@ -46,15 +67,15 @@ public class ServerCommunicator extends Thread {
 
     public void run() {
         try {
-            socket = new Socket(SERVER_HOST, SERVER_PORT);
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(
-                    socket.getInputStream()));
+            LOG.info("ServerCommunicator started");
 
+            LOG.info("sending new user request");
             Response nameResponse = sendRequestAndWaitForResponse(Requests
                     .newUser(this.userName));
 
             if (nameResponse.isError()) {
+                LOG.severe("new user request had an error reply");
+                LOG.severe("Name Response: " + nameResponse.toString());
                 disconnect();
             } else {
                 while (!isInterrupted()) {
@@ -62,21 +83,12 @@ public class ServerCommunicator extends Thread {
                     sleep(CLIENT_LIST_REFRESH_PERIOD);
                 }
             }
-        } catch (UnknownHostException e) {
-        } catch (IOException e) {
         } catch (InterruptedException e) {
         }
     }
 
-    public static ServerCommunicator createServerCommunicator(String userName, Client client) {
-        if (userName != null && client != null) {
-            return new ServerCommunicator(userName, client);
-        } else {
-            return null;
-        }
-    }
-
     private void disconnect() {
+        LOG.info("closing the Servercommunicator");
         try {
             interrupt();
             socket.close();
@@ -87,8 +99,9 @@ public class ServerCommunicator extends Thread {
     private Response sendRequestAndWaitForResponse(Request request) {
         Response response = Responses.unknown();
         try {
-            out.println(request.toString());
-            response = Responses.fromRawResponse(in.readLine());
+            LOG.info("sending request " + request.toString());
+            println(request);
+            response = Responses.fromRawResponse(readLine());
         } catch (IOException e) {
         }
         return response;
@@ -100,5 +113,10 @@ public class ServerCommunicator extends Thread {
     
     private GUI getGUI() {
         return getClient().getGUI();
+    }
+
+    @Override
+    protected Logger getLog() {
+        return LOG;
     }
 }

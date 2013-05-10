@@ -9,7 +9,7 @@ package de.haw_hamburg.client;
  * @author patrick
  */
 public class StartDialog extends javax.swing.JDialog {
-    private Client client;
+    private GUI gui;
 
     /**
      * Creates new form StartDialog
@@ -109,7 +109,7 @@ public class StartDialog extends javax.swing.JDialog {
             connectButton.setEnabled(true);
         } else {
         // 3. read text from hostnameField
-            getClient().setServerHostName(serverHostnameTextField.getText());
+            getClient().setServerHostname(serverHostnameTextField.getText());
         // 4. read text from userNameField
             getClient().setUserName(chatUsernameTextfield.getText());
         // 5. close dialog
@@ -171,12 +171,22 @@ public class StartDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private Client getClient() {
-        return this.client;
+        return getGUI().getClient();
     }
     
-    public void setClient(Client client) {
-        if (client != null) {
-            this.client = client;
+    private GUI getGUI() {
+        return this.gui;
+    }
+    
+    public void setGUI(GUI gui) {
+        if (gui != null) {
+            this.gui = gui;
         }
+    }
+    
+    public static StartDialog create(java.awt.Frame parent, boolean modal, GUI gui) {
+        StartDialog startDialog = new StartDialog(parent, modal);
+        startDialog.setGUI(gui);
+        return startDialog;
     }
 }
