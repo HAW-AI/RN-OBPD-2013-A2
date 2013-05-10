@@ -17,6 +17,7 @@ public class StartDialog extends javax.swing.JDialog {
     public StartDialog(java.awt.Frame parent, boolean modal) {
         super(parent, true);
         initComponents();
+        setVisible(true);
     }
 
     /**

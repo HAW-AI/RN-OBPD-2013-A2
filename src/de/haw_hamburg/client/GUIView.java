@@ -25,6 +25,7 @@ public class GUIView extends javax.swing.JFrame {
     GUIView(GUI gui) {
         initComponents();
         setGUI(gui);
+        setVisible(true);
     }
 
     public String getUsername() {
