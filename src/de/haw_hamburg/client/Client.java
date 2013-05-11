@@ -34,9 +34,12 @@ public class Client extends Thread {
         return getClient();
     }
     
-//    public void run() {
-//        
-//    }
+    public void run() {
+        launchGUI();
+        while(!isInterrupted()) {
+            
+        }
+    }
 
     public ServerCommunicator getServerCommunicator() {
         return this.serverCommunicator;
