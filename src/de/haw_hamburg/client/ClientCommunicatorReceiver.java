@@ -29,9 +29,9 @@ public class ClientCommunicatorReceiver extends Thread {
 	@Override
 	public void run() {
 		LOG.info("Receiver started");
-		byte[] receiveData = new byte[BUFFER_SIZE];
 		try {
 			while (!isInterrupted()) {
+				byte[] receiveData = new byte[BUFFER_SIZE];
 				DatagramPacket packet = new DatagramPacket(receiveData,
 						receiveData.length);
 				socket.receive(packet);

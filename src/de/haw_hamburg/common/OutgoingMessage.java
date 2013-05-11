@@ -24,4 +24,9 @@ public class OutgoingMessage {
 		}
 		return null;
 	}
+	
+	@Override
+	public String toString() {
+		return this.userName + ": " + this.content;
+	}
 }
