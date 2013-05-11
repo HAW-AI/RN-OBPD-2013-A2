@@ -113,11 +113,6 @@ public class GUIView extends javax.swing.JFrame {
         clientsListScrollPane.setEnabled(false);
         clientsListScrollPane.setHorizontalScrollBar(null);
 
-        userList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         userList.setFocusTraversalKeysEnabled(false);
         userList.setFocusable(false);
         userList.setOpaque(false);
