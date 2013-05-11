@@ -6,6 +6,7 @@ package de.haw_hamburg.client;
 
 import de.haw_hamburg.common.OutgoingMessage;
 import de.haw_hamburg.common.User;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 /**
@@ -85,6 +86,11 @@ public class GUIView extends javax.swing.JFrame {
 
         chatEntryBox.setColumns(20);
         chatEntryBox.setRows(5);
+        chatEntryBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                enterPressed(evt);
+            }
+        });
         chatEntryBoxScrollPane.setViewportView(chatEntryBox);
 
         submitButton.setText("send");
@@ -154,16 +160,35 @@ public class GUIView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitChatText(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitChatText
-        // 1. Get Text from InputBox
-        String chatEntry = chatEntryBox.getText();
-        // 2. clear the input box
-        chatEntryBox.setText("");
-        // 3. Add the text to the Chatlog
-        addEntryToChatLogScrollPane(chatEntry);
-        // 4. Send to all connected clients via a ClientCommunicator
-        ClientCommunicator.sendMessage(getClient().getUserListWithoutUs(), OutgoingMessage.createOutgoingMessage(getUsername(), chatEntry));
+        submit();
     }//GEN-LAST:event_submitChatText
 
+    private void enterPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterPressed
+        int key = evt.getKeyCode();
+
+        if (key == KeyEvent.VK_ENTER) {
+            submit();
+        }
+    }//GEN-LAST:event_enterPressed
+
+    private void submit() {
+        // 1. Get Text from InputBox
+        String chatEntry = chatEntryBox.getText();
+
+        if (chatEntry.length() <= 100) {
+            submitButton.setEnabled(false);
+            // 2. clear the input box
+            chatEntryBox.setText("");
+            // 3. Add the text to the Chatlog
+            addEntryToChatLogScrollPane(chatEntry);
+            // 4. Send to all connected clients via a ClientCommunicator
+            ClientCommunicator.sendMessage(getClient().getUserListWithoutUs(), OutgoingMessage.createOutgoingMessage(getUsername(), chatEntry));
+            submitButton.setEnabled(true);
+        } else {
+            ErrorDialog errorDialog = new ErrorDialog(this, true);
+            errorDialog.setVisible(true);
+        }
+    }
     /**
      * @param args the command line arguments
      */
