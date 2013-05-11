@@ -7,6 +7,7 @@ import de.haw_hamburg.requests.Requests;
 import de.haw_hamburg.responses.Responses;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -22,7 +23,7 @@ public class ClientCommunicator extends ChatComponent {
 	private final Logger LOG;
 	private String clientName;
 
-	private ClientCommunicator(Socket socket, int id, BufferedReader in,
+	private ClientCommunicator(Socket socket, int id, InputStream in,
 			PrintWriter out, Server server, InetAddress address) {
 		this.socket = socket;
 		this.in = in;
@@ -35,8 +36,7 @@ public class ClientCommunicator extends ChatComponent {
 	static ClientCommunicator create(Socket socket, int id, Server server)
 			throws IOException {
 		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				socket.getInputStream()));
+		InputStream in = socket.getInputStream();
 		InetAddress address = socket.getInetAddress();
 		return new ClientCommunicator(socket, id, in, out, server, address);
 	}
