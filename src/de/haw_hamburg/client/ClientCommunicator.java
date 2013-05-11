@@ -13,7 +13,7 @@ import de.haw_hamburg.common.User;
 
 public class ClientCommunicator extends Thread {
 
-	private static int CLIENT_UDP_PORT = 50001;
+	public static final int CLIENT_UDP_PORT = 50002;
 
 	private static Logger LOG = Logger.getLogger(Receiver.class.getName());
 
