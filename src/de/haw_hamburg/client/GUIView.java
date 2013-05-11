@@ -56,13 +56,12 @@ public class GUIView extends javax.swing.JFrame {
 
         jDialog1 = new javax.swing.JDialog();
         jDialog2 = new javax.swing.JDialog();
-        chatEntryBoxScrollPane = new javax.swing.JScrollPane();
-        chatEntryBox = new javax.swing.JTextArea();
         submitButton = new javax.swing.JButton();
         chatLogScrollPane = new javax.swing.JScrollPane();
         chatLogTextArea = new javax.swing.JTextArea();
         clientsListScrollPane = new javax.swing.JScrollPane();
         userList = new javax.swing.JList();
+        chatEntryTextField = new javax.swing.JTextField();
 
         org.jdesktop.layout.GroupLayout jDialog1Layout = new org.jdesktop.layout.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -87,15 +86,6 @@ public class GUIView extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        chatEntryBox.setColumns(20);
-        chatEntryBox.setRows(5);
-        chatEntryBox.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                enterPressed(evt);
-            }
-        });
-        chatEntryBoxScrollPane.setViewportView(chatEntryBox);
 
         submitButton.setText("send");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -133,7 +123,7 @@ public class GUIView extends javax.swing.JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(chatLogScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 673, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(layout.createSequentialGroup()
-                        .add(chatEntryBoxScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 592, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(chatEntryTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 592, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(submitButton)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -146,11 +136,11 @@ public class GUIView extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(chatLogScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                        .add(chatLogScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 554, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(chatEntryBoxScrollPane)
-                            .add(submitButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(chatEntryTextField)
+                            .add(submitButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 35, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                     .add(clientsListScrollPane))
                 .addContainerGap())
         );
@@ -162,22 +152,14 @@ public class GUIView extends javax.swing.JFrame {
         submit();
     }//GEN-LAST:event_submitChatText
 
-    private void enterPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterPressed
-        int key = evt.getKeyCode();
-
-        if (key == KeyEvent.VK_ENTER) {
-            submit();
-        }
-    }//GEN-LAST:event_enterPressed
-
     private void submit() {
         // 1. Get Text from InputBox
-        String chatEntry = chatEntryBox.getText();
+        String chatEntry = chatEntryTextField.getText();
 
         if (chatEntry.length() <= 100) {
             submitButton.setEnabled(false);
             // 2. clear the input box
-            chatEntryBox.setText("");
+            chatEntryTextField.setText("");
             // 3. Add the text to the Chatlog
             addEntryToChatLogScrollPane(getUsername() + ": " + chatEntry);
             // 4. Send to all connected clients via a ClientCommunicator
@@ -232,8 +214,7 @@ public class GUIView extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea chatEntryBox;
-    private javax.swing.JScrollPane chatEntryBoxScrollPane;
+    private javax.swing.JTextField chatEntryTextField;
     private javax.swing.JScrollPane chatLogScrollPane;
     private javax.swing.JTextArea chatLogTextArea;
     private javax.swing.JScrollPane clientsListScrollPane;

@@ -58,8 +58,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="chatLogScrollPane" min="-2" pref="673" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="chatEntryBoxScrollPane" min="-2" pref="592" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="chatEntryTextField" min="-2" pref="592" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="submitButton" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -76,11 +76,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="chatLogScrollPane" pref="505" max="32767" attributes="0"/>
+                      <Component id="chatLogScrollPane" min="-2" pref="554" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="chatEntryBoxScrollPane" max="32767" attributes="0"/>
-                          <Component id="submitButton" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="chatEntryTextField" max="32767" attributes="0"/>
+                          <Component id="submitButton" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="clientsListScrollPane" max="32767" attributes="0"/>
@@ -91,24 +91,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JScrollPane" name="chatEntryBoxScrollPane">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JTextArea" name="chatEntryBox">
-          <Properties>
-            <Property name="columns" type="int" value="20"/>
-            <Property name="rows" type="int" value="5"/>
-          </Properties>
-          <Events>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="enterPressed"/>
-          </Events>
-        </Component>
-      </SubComponents>
-    </Container>
     <Component class="javax.swing.JButton" name="submitButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="send"/>
@@ -166,5 +148,7 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JTextField" name="chatEntryTextField">
+    </Component>
   </SubComponents>
 </Form>
