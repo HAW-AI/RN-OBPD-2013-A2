@@ -35,6 +35,8 @@ public class ClientCommunicatorReceiver extends Thread {
 						receiveData.length);
 				socket.receive(packet);
 				String message = new String(packet.getData());
+				LOG.info("Received message: "+message);
+				LOG.info("Received message from: "+packet.getAddress().getHostAddress());
 				view.addEntryToChatLogScrollPane(message);
 			}
 		} catch (IOException e) {

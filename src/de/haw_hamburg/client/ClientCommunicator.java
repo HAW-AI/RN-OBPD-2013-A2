@@ -28,6 +28,9 @@ public class ClientCommunicator extends Thread {
 			// Use any available port
 			DatagramSocket socket = new DatagramSocket();
 			byte[] data = this.message.toMessageByteArray();
+			LOG.info("Sending message: "+message.toString());
+			LOG.info("Sending to receivers: "+receivers);
+			
 			for (User user : this.receivers) {
 				DatagramPacket outgoing;
 				outgoing = new DatagramPacket(data, data.length,
