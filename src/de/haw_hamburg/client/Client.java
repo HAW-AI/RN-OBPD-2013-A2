@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Client extends Thread {
+public class Client {
 
     private static Client client;
     private ServerCommunicator serverCommunicator;
@@ -32,13 +32,6 @@ public class Client extends Thread {
 
     public static Client createClient() {
         return getClient();
-    }
-    
-    public void run() {
-        launchGUI();
-        while(!isInterrupted()) {
-            
-        }
     }
 
     public ServerCommunicator getServerCommunicator() {
@@ -115,9 +108,8 @@ public class Client extends Thread {
         return this.serverHostName;
     }
 
-    private void launchGUI() {
+    void launchGUI() {
         GUI gui = GUI.createGUI(client);
         client.setGUI(gui);
-        gui.start();
     }
 }

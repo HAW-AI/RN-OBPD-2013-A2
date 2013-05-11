@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author patrick
  */
-public class GUI extends Thread {
+public class GUI {
 
     private static GUI gui;
     private GUIView guiView;
