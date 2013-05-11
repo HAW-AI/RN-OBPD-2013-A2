@@ -114,6 +114,12 @@ public class GUIView extends javax.swing.JFrame {
         userList.setSelectionForeground(new java.awt.Color(0, 0, 0));
         clientsListScrollPane.setViewportView(userList);
 
+        chatEntryTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                chatEntryTextFieldKeyReleased(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,6 +157,14 @@ public class GUIView extends javax.swing.JFrame {
     private void submitChatText(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitChatText
         submit();
     }//GEN-LAST:event_submitChatText
+
+    private void chatEntryTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatEntryTextFieldKeyReleased
+        int key = evt.getKeyCode();
+
+        if (key == KeyEvent.VK_ENTER) {
+            submit();
+        }
+    }//GEN-LAST:event_chatEntryTextFieldKeyReleased
 
     private void submit() {
         // 1. Get Text from InputBox

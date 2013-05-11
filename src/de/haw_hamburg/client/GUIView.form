@@ -149,6 +149,9 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JTextField" name="chatEntryTextField">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="chatEntryTextFieldKeyReleased"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
