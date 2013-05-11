@@ -175,7 +175,7 @@ public class GUIView extends javax.swing.JFrame {
             // 2. clear the input box
             chatEntryTextField.setText("");
             // 3. Add the text to the Chatlog
-            addEntryToChatLogScrollPane(getUsername() + ": " + chatEntry);
+            addEntryToChatLogScrollPane(getUsername() + ": " + chatEntry + "\n");
             // 4. Send to all connected clients via a ClientCommunicator
             ClientCommunicator.sendMessage(getClient().getUserListWithoutUs(), OutgoingMessage.createOutgoingMessage(getUsername(), chatEntry));
             submitButton.setEnabled(true);
@@ -241,7 +241,7 @@ public class GUIView extends javax.swing.JFrame {
     private static GUIView guiView;
 
     public void addEntryToChatLogScrollPane(String message) {
-        this.chatLogTextArea.append(message + "\n");
+        this.chatLogTextArea.append(message);
     }
 
     private void setGUI(GUI gui) {
