@@ -21,15 +21,20 @@ public class User {
 	public String getName() {
 		return name;
 	}
-        
-        public boolean equals(Object otherObject) {
-            if (otherObject == null) {
-                return false;
-            } else if (otherObject instanceof User) {
-                return ((User) otherObject).getName().equals(getName());
-            } else {
-                return false;
-            }
-        }
+
+	public boolean equals(Object otherObject) {
+		if (otherObject == null) {
+			return false;
+		} else if (otherObject instanceof User) {
+			return ((User) otherObject).getName().equals(getName());
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return getName() + "(" + getHostname() + ")";
+	}
 
 }
