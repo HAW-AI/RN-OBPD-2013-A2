@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.nio.charset.Charset;
 import java.util.logging.Logger;
 
 public class ClientCommunicatorReceiver extends Thread {
@@ -34,7 +35,7 @@ public class ClientCommunicatorReceiver extends Thread {
 				DatagramPacket packet = new DatagramPacket(receiveData,
 						receiveData.length);
 				socket.receive(packet);
-				String message = new String(packet.getData());
+				String message = new String(packet.getData(), Charset.forName("UTF-8"));
 				LOG.info("Received message: "+message);
 				LOG.info("Received message from: "+packet.getAddress().getHostAddress());
 				view.addEntryToChatLogScrollPane(message);
