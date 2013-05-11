@@ -20,7 +20,7 @@ public class ClientCommunicatorReceiver extends Thread {
 		this.view = view;
 	}
 
-	ClientCommunicatorReceiver create(GUIView view) throws SocketException {
+	static ClientCommunicatorReceiver create(GUIView view) throws SocketException {
 		DatagramSocket socket = new DatagramSocket(CLIENT_UDP_PORT);
 		return new ClientCommunicatorReceiver(view, socket);
 	}

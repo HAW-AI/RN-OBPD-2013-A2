@@ -5,7 +5,10 @@
 package de.haw_hamburg.client;
 
 import de.haw_hamburg.common.User;
+
+import java.net.SocketException;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,6 +20,8 @@ public class GUI extends Thread {
     private GUIView guiView;
     private Client client;
     private StartDialog startDialog;
+    
+    private Logger LOG=Logger.getLogger(GUI.class.getName());
 
     private GUI() {
     }
@@ -34,6 +39,11 @@ public class GUI extends Thread {
         gui.guiView = new GUIView(gui);
         gui.startDialog = StartDialog.create(gui.guiView, true, gui);
         gui.startDialog.setVisible(true);
+        try {
+			ClientCommunicatorReceiver.create(gui.guiView).start();
+		} catch (SocketException e) {
+			gui.LOG.warning("Failed to start receiver: "+e.getMessage());
+		}
         return gui;
     }
 

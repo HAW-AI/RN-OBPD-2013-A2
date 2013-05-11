@@ -13,8 +13,6 @@ import de.haw_hamburg.common.User;
 
 public class ClientCommunicator extends Thread {
 
-	public static final int CLIENT_UDP_PORT = 50002;
-
 	private static Logger LOG = Logger.getLogger(Receiver.class.getName());
 
 	private OutgoingMessage message;
@@ -27,13 +25,14 @@ public class ClientCommunicator extends Thread {
 
 	public void run() {
 		try {
-			DatagramSocket socket = new DatagramSocket(CLIENT_UDP_PORT);
+			// Use any available port
+			DatagramSocket socket = new DatagramSocket();
 			byte[] data = this.message.toMessageByteArray();
 			for (User user : this.receivers) {
 				DatagramPacket outgoing;
 				outgoing = new DatagramPacket(data, data.length,
 						InetAddress.getByName(user.getHostname().toString()),
-						CLIENT_UDP_PORT);
+						ClientCommunicatorReceiver.CLIENT_UDP_PORT);
 				socket.send(outgoing);
 			}
 			socket.close();
@@ -50,7 +49,7 @@ public class ClientCommunicator extends Thread {
 		if (receivers != null && !receivers.isEmpty() && message != null) {
 			ClientCommunicator communicator = new ClientCommunicator(receivers,
 					message);
-			communicator.run();
+			communicator.start();
 		}
 	}
 }
