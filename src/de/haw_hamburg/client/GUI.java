@@ -14,13 +14,11 @@ import java.util.List;
 public class GUI extends Thread {
 
     private static GUI gui;
-    private final GUIView guiView;
+    private GUIView guiView;
     private Client client;
-    private final StartDialog startDialog;
+    private StartDialog startDialog;
 
     private GUI() {
-        this.guiView = new GUIView(this);
-        this.startDialog = StartDialog.create(guiView, true, this);
     }
     
     public static GUI getGUI() {
@@ -33,6 +31,9 @@ public class GUI extends Thread {
     public static GUI createGUI(Client client) {
         GUI gui = getGUI();
         gui.setClient(client);
+        gui.guiView = new GUIView(gui);
+        gui.startDialog = StartDialog.create(gui.guiView, true, gui);
+        gui.startDialog.setVisible(true);
         return gui;
     }
 

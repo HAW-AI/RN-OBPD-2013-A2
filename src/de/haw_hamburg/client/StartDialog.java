@@ -14,10 +14,9 @@ public class StartDialog extends javax.swing.JDialog {
     /**
      * Creates new form StartDialog
      */
-    public StartDialog(java.awt.Frame parent, boolean modal) {
+    private StartDialog(java.awt.Frame parent, boolean modal) {
         super(parent, true);
         initComponents();
-        setVisible(true);
     }
 
     /**
