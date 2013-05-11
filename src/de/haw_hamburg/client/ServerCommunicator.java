@@ -21,8 +21,6 @@ public class ServerCommunicator extends ChatComponent {
     private static final Integer SERVER_PORT = 50000;
     private static final Integer CLIENT_LIST_REFRESH_PERIOD = 2000;
     private Socket socket;
-    private PrintWriter out;
-    private BufferedReader in;
     private String userName;
     private final Client client;
     private final Logger LOG;

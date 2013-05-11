@@ -99,12 +99,13 @@ public class Client extends Thread {
 
     public void startDialogFinished() {
         launchServerCommunicator();
-        launchGUI();
+//        launchGUI();
     }
 
     private void launchServerCommunicator() {
         try {
-            setServerCommunicator(serverCommunicator.create(getServerHostname(), getCurrentUser().getName(), this));
+            setServerCommunicator(ServerCommunicator.create(getServerHostname(), getCurrentUser().getName(), this));
+            getServerCommunicator().start();
         } catch (IOException ex) {
             LOG.severe("could not launch server communicator");
         }
