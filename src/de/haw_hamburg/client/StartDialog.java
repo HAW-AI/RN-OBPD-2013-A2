@@ -118,6 +118,9 @@ public class StartDialog extends javax.swing.JDialog {
         } else if (chatUsernameTextfield.getText().length() > 20) {
             errorLabel.setText("Der Chatname darf nicht länger als 20 Zeichen sein.");
             connectButton.setEnabled(true);
+        } else if (!isAlphaNumeric(chatUsernameTextfield.getText())) {
+            errorLabel.setText("Der Chatname darf keine Sonder- oder Leerzeichen enthalten.");
+            connectButton.setEnabled(true);
         } else {
             // 3. read text from hostnameField
             getClient().setServerHostname(serverHostnameTextField.getText());
@@ -200,5 +203,10 @@ public class StartDialog extends javax.swing.JDialog {
         StartDialog startDialog = new StartDialog(parent, modal);
         startDialog.setGUI(gui);
         return startDialog;
+    }
+    
+    private static boolean isAlphaNumeric(String string){
+        String pattern = "^[a-zA-Z0-9]*$";
+        return string.matches(pattern);
     }
 }
