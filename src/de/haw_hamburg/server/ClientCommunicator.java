@@ -57,6 +57,9 @@ public class ClientCommunicator extends ChatComponent {
 			}
 		}
 		try {
+			if (server.contains(address)) {
+				server.remove(clientName);
+			}
 			socket.close();
 		} catch (IOException e) {
 			LOG.warning("Could not close socket: " + e.getMessage());
