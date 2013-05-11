@@ -29,6 +29,10 @@ public class GUIView extends javax.swing.JFrame {
         setVisible(true);
     }
 
+    public void setUserName(String userName) {
+		this.userName = userName;
+	}
+    
     public String getUsername() {
         return this.userName;
     }

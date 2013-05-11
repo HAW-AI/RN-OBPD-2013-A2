@@ -39,6 +39,7 @@ public class GUI extends Thread {
         gui.guiView = new GUIView(gui);
         gui.startDialog = StartDialog.create(gui.guiView, true, gui);
         gui.startDialog.setVisible(true);
+        gui.guiView.setUserName(client.getCurrentUser().getName());
         try {
 			ClientCommunicatorReceiver.create(gui.guiView).start();
 		} catch (SocketException e) {
