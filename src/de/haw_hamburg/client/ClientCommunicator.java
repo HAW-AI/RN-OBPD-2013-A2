@@ -8,6 +8,8 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.swing.SwingUtilities;
+
 import de.haw_hamburg.common.OutgoingMessage;
 import de.haw_hamburg.common.User;
 
@@ -52,7 +54,7 @@ public class ClientCommunicator extends Thread {
 		if (receivers != null && !receivers.isEmpty() && message != null) {
 			ClientCommunicator communicator = new ClientCommunicator(receivers,
 					message);
-			communicator.start();
+			SwingUtilities.invokeLater(communicator);
 		}
 	}
 }
