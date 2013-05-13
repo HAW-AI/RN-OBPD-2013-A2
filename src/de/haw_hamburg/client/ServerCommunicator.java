@@ -85,6 +85,16 @@ public class ServerCommunicator extends ChatComponent {
         }
     }
 
+    public void sayBye(){
+    	try{
+    		println(Requests.bye());
+    	}
+    	catch(IOException e){
+    		LOG.info("Failed to say bye: "+e.getMessage());
+    	}
+    	disconnect();
+    }
+    
     private void disconnect() {
         LOG.info("closing the Servercommunicator");
         try {

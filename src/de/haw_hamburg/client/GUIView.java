@@ -6,9 +6,15 @@ package de.haw_hamburg.client;
 
 import de.haw_hamburg.common.OutgoingMessage;
 import de.haw_hamburg.common.User;
+import de.haw_hamburg.requests.Requests;
+
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.logging.Logger;
+
+import javax.swing.JFrame;
 
 /**
  *
@@ -54,6 +60,18 @@ public class GUIView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed"
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	
+    	this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+    	this.addWindowListener( new WindowAdapter() {
+    	
+    	    public void windowClosing(WindowEvent e)
+    	    {
+    	        JFrame frame = (JFrame)e.getSource();
+    	        gui.getClient().getServerCommunicator().sayBye();
+    	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	    }
+    	});
 
         jDialog1 = new javax.swing.JDialog();
         jDialog2 = new javax.swing.JDialog();

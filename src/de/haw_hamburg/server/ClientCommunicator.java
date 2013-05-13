@@ -45,13 +45,16 @@ public class ClientCommunicator extends ChatComponent {
 	public void run() {
 		LOG.info("ClientCommunicator started");
 		try {
-			String rawRequest=readLine();
-			while (!isInterrupted() && state != ChatState.DISCONNECTED && rawRequest!=null) {
+			String rawRequest = readLine();
+			while (!isInterrupted() && state != ChatState.DISCONNECTED
+					&& rawRequest != null) {
 				handleRequest(rawRequest);
-				rawRequest=readLine();
+				rawRequest = readLine();
 			}
 		} catch (IOException e) {
-			LOG.warning("Could not get request: " + e.getMessage());
+			if (state != ChatState.DISCONNECTED) {
+				LOG.warning("Could not get request: " + e.getMessage());
+			}
 			if (server.contains(address)) {
 				server.remove(clientName);
 			}
@@ -64,6 +67,7 @@ public class ClientCommunicator extends ChatComponent {
 		} catch (IOException e) {
 			LOG.warning("Could not close socket: " + e.getMessage());
 		}
+		server.addToThreadCount(-1);
 		LOG.info("ClientCommunicator finished");
 	}
 
@@ -92,6 +96,7 @@ public class ClientCommunicator extends ChatComponent {
 				server.remove(clientName);
 				state = ChatState.DISCONNECTED;
 				println(Responses.bye());
+				socket.close();
 			}
 		} else if (request.isInfo()) {
 			if (state != ChatState.AUTHORIZED) {
@@ -112,8 +117,8 @@ public class ClientCommunicator extends ChatComponent {
 	protected Logger getLog() {
 		return LOG;
 	}
-	
-	ChatState getChatState(){
+
+	ChatState getChatState() {
 		return state;
 	}
 

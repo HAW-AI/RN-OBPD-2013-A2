@@ -15,5 +15,6 @@ public interface Server {
 
 	Map<String,InetAddress> getActiveClients();
 	
-
+	void addToThreadCount(int i);
+	
 }
