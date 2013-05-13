@@ -8,6 +8,7 @@ import de.haw_hamburg.common.OutgoingMessage;
 import de.haw_hamburg.common.User;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
@@ -172,11 +173,12 @@ public class GUIView extends javax.swing.JFrame {
         String chatEntry = chatEntryTextField.getText();
 
         if (chatEntry.length() <= 100) {
-            submitButton.setEnabled(false);
+        	submitButton.setEnabled(false);
+        	addEntryToChatLogScrollPane(getUsername() + ": " + chatEntry + "\n");
             // 2. clear the input box
             chatEntryTextField.setText("");
             // 3. Add the text to the Chatlog
-            addEntryToChatLogScrollPane(getUsername() + ": " + chatEntry + "\n");
+         
             // 4. Send to all connected clients via a ClientCommunicator
             ClientCommunicator.sendMessage(getClient().getUserListWithoutUs(), OutgoingMessage.createOutgoingMessage(getUsername(), chatEntry));
             submitButton.setEnabled(true);
@@ -240,8 +242,11 @@ public class GUIView extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private String userName;
     private static GUIView guiView;
+    
+    private final Logger LOG=Logger.getLogger(GUIView.class.getName());
 
     public void addEntryToChatLogScrollPane(String message) {
+    	LOG.info("Appending message: "+message);
         this.chatLogTextArea.append(message);
     }
 

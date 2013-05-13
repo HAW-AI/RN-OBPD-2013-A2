@@ -89,7 +89,7 @@ public class ClientCommunicatorTest {
 		assertEquals(Responses.ok().toString(),in.readLine());
 		out.println(Requests.info());
 		out.flush();
-		assertEquals(Responses.list(Arrays.asList(User.create("testuser", "localhost.localdomain"))).toString(),in.readLine());
+		assertEquals(Responses.list(Arrays.asList(User.create("testuser", "localhost"))).toString(),in.readLine());
 		out.println(Requests.bye());
 		out.flush();
 		assertEquals(Responses.bye().toString(),in.readLine());
